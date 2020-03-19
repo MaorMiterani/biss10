@@ -1,5 +1,9 @@
+firstIteration = True
+
 def find_second_x(lines):
+    global firstIteration
     first = True
+    firstIteration = False
     templines = lines.copy()
     rownumber = 0
     for row in templines:
@@ -13,12 +17,12 @@ def find_second_x(lines):
         return x, rownumber - 1
 
 
-def line_valid(lines, second):
+def line_valid(lines):
     currentLocation = []
     rowNumber = 0
     horizontal = False
     vertical = False
-    if second:
+    if firstIteration:
         x, y = find_second_x(lines)
         value = lines[y][x]
     else:
@@ -108,8 +112,8 @@ def line_valid(lines, second):
             break
     else:
         return True
-    if not second:
-        return False or line_valid(lines, True)
+    if firstIteration:
+        return False or line_valid(lines)
     else:
         return False
 
@@ -171,7 +175,7 @@ def main():
         "   +------    ",
         "   |          ",
         "X--+      X   ",
-        "              "], False))
+        "              "]))
 
 
 if __name__ == '__main__':
