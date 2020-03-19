@@ -1,9 +1,6 @@
 def filter_even(numlist):
-    evenlist = []
-    for number in numlist:
-        if not number % 2:
-            evenlist.append(number)
-    return evenlist
+
+    return list(filter(lambda x: x % 2 == 0, numlist))
 
 def main():
     print(filter_even([23,453,75,24,64,233,1246]))
