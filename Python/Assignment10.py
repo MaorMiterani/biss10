@@ -1,0 +1,178 @@
+def find_second_x(lines):
+    first = True
+    templines = lines.copy()
+    rownumber = 0
+    for row in templines:
+        if row.find('X') != -1 and first:
+            row = row[row.find('X') + 1:]
+            first = False
+        if row.find('X') != -1:
+            x = row.find('X')
+        rownumber += 1
+    else:
+        return x, rownumber - 1
+
+
+def line_valid(lines, second):
+    currentLocation = []
+    rowNumber = 0
+    horizontal = False
+    vertical = False
+    if second:
+        x, y = find_second_x(lines)
+        value = lines[y][x]
+    else:
+        for row in lines:
+            if row.find('X') != -1:
+                currentLocation.append(row.find('X'))
+                currentLocation.append(rowNumber)
+                x = currentLocation[0]
+                y = currentLocation[1]
+                value = lines[x][y]
+                break
+            else:
+                rowNumber += 1
+    prevX = x
+    prevY = y
+    if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ':
+        x += 1
+        value = lines[y][x]
+        horizontal = True
+
+    if x - 1 > 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ':
+        x -= 1
+        value = lines[y][x]
+        horizontal = True
+
+    if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ':
+        y += 1
+        value = lines[y][x]
+        vertical = True
+
+    if y - 1 < 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ':
+        y -= 1
+        value = lines[y][x]
+        vertical = True
+
+    while value != 'X':
+        if value == '-' and horizontal:
+            if x - 1 == prevX:
+                prevX = x
+                x += 1
+                value = lines[y][x]
+            elif x + 1 == prevX:
+                prevX = x
+                x -+ 1
+                value = lines[y][x]
+        if value == '|' and vertical:
+            if y - 1 == prevY:
+                prevY = y
+                y += 1
+                value = lines[y][x]
+            elif y + 1 == prevY:
+                prevY = y
+                y -= 1
+                value = lines[y][x]
+        if value == '+' and horizontal:
+            horizontal = False
+            vertical = True
+            if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ':
+                prevY = y
+                y += 1
+                value = lines[y][x]
+
+            if y - 1 < 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ':
+                prevY = y
+                y -= 1
+                value = lines[y][x]
+
+        if value == '+' and vertical:
+            horizontal = True
+            vertical = False
+            if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ':
+                prevX = x
+                x += 1
+                value = lines[y][x]
+
+            elif x + 1 < len(lines[y]) and lines[y][x + 1] != '|':
+                break
+
+            if x - 1 > 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ':
+                prevX = x
+                x -= 1
+                value = lines[y][x]
+
+            elif x - 1 < 0 and lines[y][x - 1] != '|':
+                break
+        if value == ' ':
+            break
+    else:
+        return True
+    if not second:
+        return False or line_valid(lines, True)
+    else:
+        return False
+
+
+
+
+
+
+
+
+
+
+'''
+line_valid(grid)  # ---> True
+
+
+grid = ["     ",
+        "  X  ",
+        "  |  ",
+        "  |  ",
+        "  X  "]
+line_valid(grid)  # ---> True
+
+# Note: this grid is only valid when starting on the right-hand X, but still considered valid
+grid = ["                      ",
+        "   +-------+          ",
+        "   |      +++---+     ",
+        "X--+      +-+   X     "]
+line_valid(grid)  # ---> True
+
+
+grid = [" X  ",
+        " |  ",
+        " +  ",
+        " X  "]
+line_valid(grid)  # ---> False
+
+
+grid = ["              ",
+        "   +------    ",
+        "   |          ",
+        "X--+      X   ",
+        "              "]
+line_valid(grid)  # ---> False
+
+
+grid = ["      +------+",
+        "      |      |",
+        "X-----+------+",
+        "      |       ",
+        "      X       "]
+line_valid(grid)  # ---> False
+
+
+'''
+
+def main():
+    print(line_valid(["              ",
+        "   +------    ",
+        "   |          ",
+        "X--+      X   ",
+        "              "], False))
+
+
+if __name__ == '__main__':
+    main()
