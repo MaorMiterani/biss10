@@ -1,12 +1,15 @@
 def can_moshe_buy(startPriceOld, startPriceNew, savingPerMonth, percentLossByMonth):
     money = startPriceOld
-    priceOld = startPriceOld
     month = 0
+    priceOld = startPriceOld
+    declinePercent = percentLossByMonth
     while(money < startPriceNew):
         month += 1
-        priceOld *= 1 - (percentLossByMonth * month)
+        if not month % 2:
+            declinePercent = percentLossByMonth + (0.5 * (month / 2))
+        priceOld *= ((100 - declinePercent)/100)
         money = priceOld + (savingPerMonth * month)
-    return (month, money - startPriceNew)
+    return (month, round(money) - startPriceNew)
 
 
 
@@ -19,7 +22,7 @@ def can_moshe_buy(startPriceOld, startPriceNew, savingPerMonth, percentLossByMon
 
 
 def main():
-    print(can_moshe_buy(2000,8000,1000,0.05))
+    print(can_moshe_buy(2000, 8000, 1000, 1.5))
 
 if __name__ == '__main__':
     main()
