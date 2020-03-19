@@ -2,14 +2,16 @@ def can_moshe_buy(startPriceOld, startPriceNew, savingPerMonth, percentLossByMon
     money = startPriceOld
     month = 0
     priceOld = startPriceOld
+    priceNew = startPriceNew
     declinePercent = percentLossByMonth
-    while(money < startPriceNew):
+    while(money < priceNew):
         month += 1
         if not month % 2:
             declinePercent = percentLossByMonth + (0.5 * (month / 2))
         priceOld *= ((100 - declinePercent)/100)
+        priceNew *= ((100 - declinePercent)/100)
         money = priceOld + (savingPerMonth * month)
-    return (month, round(money) - startPriceNew)
+    return (month, round(money - priceNew))
 
 
 
