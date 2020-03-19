@@ -1,22 +1,27 @@
-def dejumble(messy, correctlist):
-    returnlist = []
+def dejumble (messy, correctlist):
+    dictCheck = {}
+    returnList = []
     for word in correctlist:
-        temp = messy
         for char in word:
-            if temp.find(char) == -1:
-              break
+            if char in dictCheck:
+                dictCheck[char] += 1
             else:
-                temp = temp.replace(char, '' , 1)
+                dictCheck[char] = 1
+        tempDict = dictCheck.copy()
+        for char in messy:
+            if char in tempDict:
+                tempDict[char] -= 1
+        for char in tempDict:
+            if tempDict[char] <= 0:
+                break
         else:
-            returnlist.append(word)
-    return returnlist
-
-
+            returnList.append(word)
+    return returnList
 
 
 
 def main():
-    print(dejumble('ortsp',['sport', 'parrot', 'ports', 'matey']))
+    print(dejumble('ppge',['ppgedgsg']))
 
 
 if __name__ == '__main__':
