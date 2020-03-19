@@ -1,3 +1,5 @@
+import math
+
 def pilot():
     instruction = input()
     yAxis = 0
@@ -13,7 +15,7 @@ def pilot():
         elif instruction == 'LEFT':
             xAxis -= int(axis)
         instruction = input()
-    distance = int(abs(yAxis/xAxis))
+    distance = int(math.sqrt(pow(yAxis, 2) + pow(xAxis, 2)))
     print (distance)
 
 
