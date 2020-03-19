@@ -1,7 +1,7 @@
 def dejumble (messy, correctlist):
-    dictCheck = {}
     returnList = []
     for word in correctlist:
+        dictCheck = {}
         for char in word:
             if char in dictCheck:
                 dictCheck[char] += 1
@@ -12,7 +12,7 @@ def dejumble (messy, correctlist):
             if char in tempDict:
                 tempDict[char] -= 1
         for char in tempDict:
-            if tempDict[char] <= 0:
+            if tempDict[char] != 0:
                 break
         else:
             returnList.append(word)
@@ -21,7 +21,7 @@ def dejumble (messy, correctlist):
 
 
 def main():
-    print(dejumble('ppge',['ppgedgsg']))
+    print(dejumble('ppppppoooooooooppp',['poo']))
 
 
 if __name__ == '__main__':
