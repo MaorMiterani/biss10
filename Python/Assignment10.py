@@ -54,7 +54,7 @@ def line_valid(lines):
         value = lines[y][x]
         vertical = True
 
-    elif y - 1 < 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ':
+    elif y - 1 > 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ':
         y -= 1
         value = lines[y][x]
         vertical = True
@@ -70,7 +70,7 @@ def line_valid(lines):
                 value = lines[y][x]
             elif x + 1 == prevX:
                 prevX = x
-                x -+ 1
+                x -= 1
                 value = lines[y][x]
         elif value == '|' and vertical:
             if y - 1 == prevY:
@@ -84,12 +84,13 @@ def line_valid(lines):
         elif value == '+' and horizontal:
             horizontal = False
             vertical = True
-            if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ' and lines[y - 1][x] == ' ':
+            if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ' and (y - 1 == -1 or lines[y - 1][x] == ' '):
                 prevY = y
                 y += 1
                 value = lines[y][x]
 
-            elif y - 1 < 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ' and lines[y + 1][x] == ' ':
+
+            elif y - 1 > 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ' and (y + 1 >= len(lines) or lines[y + 1][x] == ' '):
                 prevY = y
                 y -= 1
                 value = lines[y][x]
@@ -100,12 +101,12 @@ def line_valid(lines):
         elif value == '+' and vertical:
             horizontal = True
             vertical = False
-            if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ' and lines[y][x - 1] == ' ':
+            if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ' and (x - 1 == -1 or lines[y][x - 1] == ' '):
                 prevX = x
                 x += 1
                 value = lines[y][x]
 
-            elif x - 1 > 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ' and lines[y][x + 1] == ' ':
+            elif x - 1 > 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ' and (x + 1 >= len(lines[y]) or lines[y][x + 1] == ' '):
                 prevX = x
                 x -= 1
                 value = lines[y][x]
@@ -166,10 +167,10 @@ line_valid(grid)  # ---> False
 '''
 
 def main():
-    print(line_valid(["    ",
-        "X--X",
-        "    ",
-        "    "]))
+    print(line_valid(["                      ",
+        "   +-------+          ",
+        "   |      +++---+     ",
+        "X--+      +-+   X     "]))
 
 
 if __name__ == '__main__':
