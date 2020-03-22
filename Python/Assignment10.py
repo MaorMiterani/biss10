@@ -23,6 +23,7 @@ def line_valid(lines):
     rowNumber = 0
     horizontal = False
     vertical = False
+    tupleList = []
     if not firstIteration:
         x, y = find_second_x(lines)
         value = lines[y][x]
@@ -39,6 +40,7 @@ def line_valid(lines):
                 rowNumber += 1
     prevX = x
     prevY = y
+    tupleList.append((x,y))
     if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ':
         x += 1
         value = lines[y][x]
@@ -72,6 +74,7 @@ def line_valid(lines):
                 prevX = x
                 x -= 1
                 value = lines[y][x]
+            tupleList.append((x, y))
         elif value == '|' and vertical:
             if y - 1 == prevY:
                 prevY = y
@@ -81,38 +84,41 @@ def line_valid(lines):
                 prevY = y
                 y -= 1
                 value = lines[y][x]
+            tupleList.append((x, y))
         elif value == '+' and horizontal:
             horizontal = False
             vertical = True
-            if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ' and (y - 1 == -1 or lines[y - 1][x] == ' '):
+            if y + 1 < len(lines) and lines[y + 1][x] != '-' and lines[y + 1][x] != ' ' and not (x, y + 1) in tupleList and (y - 1 == -1 or (not lines[y - 1][x] == ' ' and (x, y - 1) in tupleList)):
                 prevY = y
                 y += 1
                 value = lines[y][x]
 
 
-            elif y - 1 > 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ' and (y + 1 >= len(lines) or lines[y + 1][x] == ' '):
+            elif y - 1 >= 0 and lines[y - 1][x] != '-' and lines[y - 1][x] != ' ' and not (x, y - 1) in tupleList and (y + 1 >= len(lines) or (not lines[y + 1][x] == ' ' and (x, y + 1) in tupleList)):
                 prevY = y
                 y -= 1
                 value = lines[y][x]
 
             else:
                 break
+            tupleList.append((x, y))
 
         elif value == '+' and vertical:
             horizontal = True
             vertical = False
-            if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ' and (x - 1 == -1 or lines[y][x - 1] == ' '):
+            if x + 1 < len(lines[y]) and lines[y][x + 1] != '|' and lines[y][x + 1] != ' ' and not (x + 1, y) in tupleList and (x - 1 == -1 or (not lines[y][x - 1] == ' ' and (x - 1, y) in tupleList)):
                 prevX = x
                 x += 1
                 value = lines[y][x]
 
-            elif x - 1 > 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ' and (x + 1 >= len(lines[y]) or lines[y][x + 1] == ' '):
+            elif x - 1 >= 0 and lines[y][x - 1] != '|' and lines[y][x - 1] != ' ' and not (x - 1, y) in tupleList and (x + 1 >= len(lines[y]) or (not lines[y][x + 1] == ' ' and (x + 1, y) in tupleList)):
                 prevX = x
                 x -= 1
                 value = lines[y][x]
 
             else:
                 break
+            tupleList.append((x, y))
         if value == ' ':
             break
     else:
@@ -167,10 +173,11 @@ line_valid(grid)  # ---> False
 '''
 
 def main():
-    print(line_valid(["                      ",
-        "   +-------+          ",
-        "   |      +++---+     ",
-        "X--+      +-+   X     "]))
+    print(line_valid(["      +------+",
+        "      |      |",
+        "X-----+------+",
+        "      |       ",
+        "      X       "]))
 
 
 if __name__ == '__main__':
