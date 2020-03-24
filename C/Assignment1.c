@@ -15,7 +15,7 @@ void main()
 	}
 	while (fgets(str, 10000, alladin) != NULL)
 	{
-		char *word = strtok(str, " ,-\":?.!\'");
+		char *word = strtok(str, " ,-\":?.!'");
 		while (word != NULL) {
 			if (strstr(uniqueWords, word) == NULL)
 			{
@@ -24,7 +24,7 @@ void main()
 			}
 
 
-			word = strtok(NULL, " ,-?\:\".!'");
+			word = strtok(NULL, " ,-?:\".!'");
 		}
 	}
 	printf("This text has %d unique words", uniques);
