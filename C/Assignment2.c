@@ -1,7 +1,9 @@
-#define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
+typedef int bool;
+#define true 1
+#define false 0
 
-int strstr(char *str1, char *str2)
+bool strstr(char *str1, char *str2)
 {
 	int str2Len = strlen(str2);
 	int equalChars = 0;
@@ -19,9 +21,9 @@ int strstr(char *str1, char *str2)
 			}
 		}
 		if (equalChars == str2Len)
-			return 1;
+			return true;
 	}
-	return 0;
+	return false;
 }
 
 void main()
