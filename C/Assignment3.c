@@ -6,9 +6,22 @@
 
 void getline(char *str)
 {
-	int i;
-	char buffer[256] = {"Initialize"};
-	gets(buffer);
+	int i = 0;
+	char c = ' ';
+	char buffer[256] = { "Initialize" };
+	for (i = 0; i < 256; i++)
+	{
+		fread(&c, 1, 1, stdin);
+		if (c != '\0' && c != '\n')
+		{
+			buffer[i] = c;
+		}
+		else
+		{
+			buffer[i] = '\0';
+			break;
+		}
+	}
 	for (i = 0; buffer[i] != '\0' && buffer[i] != '\n'; i++);
 	str = (char*)realloc(str, i);
 	strcpy(str, buffer);
