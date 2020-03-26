@@ -12,7 +12,7 @@ void getline(char *str)
 	for (i = 0; i < 256; i++)
 	{
 		fread(&c, 1, 1, stdin);
-		if (c != '\0' && c != '\n')
+		if (c != '\n')
 		{
 			buffer[i] = c;
 		}
@@ -22,7 +22,7 @@ void getline(char *str)
 			break;
 		}
 	}
-	for (i = 0; buffer[i] != '\0' && buffer[i] != '\n'; i++);
+	for (i = 0; buffer[i] != '\0'; i++);
 	str = (char*)realloc(str, i);
 	strcpy(str, buffer);
 }
